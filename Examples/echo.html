@@ -1,0 +1,135 @@
+<!doctype html>
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="zh-cn" />
+<title>test</title>
+<style type="text/css">
+.button {
+	display: inline-block;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	font: 16px/100% 'Microsoft yahei',Arial, Helvetica, sans-serif;
+	padding: .5em 2em .55em;
+	text-shadow: 0 1px 1px rgba(0,0,0,.3);
+	-webkit-border-radius: .5em; 
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+}
+
+/* blue */
+.blue {
+	color: #d9eef7;
+	border: solid 1px #0076a3;
+	background: #0095cd;
+	background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
+	background: -moz-linear-gradient(top,  #00adee,  #0078a5);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
+}
+
+/* green */
+.green {
+	color: #e8f0de;
+	border: solid 1px #538312;
+	background: #64991e;
+	background: -webkit-gradient(linear, left top, left bottom, from(#7db72f), to(#4e7d0e));
+	background: -moz-linear-gradient(top,  #7db72f,  #4e7d0e);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#7db72f', endColorstr='#4e7d0e');
+}
+.btndiv {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+}
+.logLine { border-bottom:1px solid #ccc; padding:4px 2px; font-family:courier; font-size:11px; }
+
+</style>
+<script src="http://resource.luoxianming.cn/axe.js" type="text/javascript" charset="utf-8"></script>
+</head><body>
+	<div class="btndiv">
+	    <input class="button blue" type="button" value="testSetData" onclick="testSetData()" />
+	    <input class="button blue" type="button" value="testGetData" onclick="testGetData()" />
+	    <input class="button blue" type="button" value="testRegisterEvent" onclick="testRegisterEvent()" />
+	    <input class="button blue" type="button" value="testPostEvent" onclick="testPostEvent()" />
+	    <input class="button blue" type="button" value="testRemoveListner" onclick="testRemoveListner()" />
+	    <input class="button blue" type="button" value="testRoute" onclick="testRoute()" />
+	    <input class="button blue" type="button" value="testRouteWithCallback" onclick="testRouteWithCallback()" />
+	    <input class="button blue" type="button" value="testRouteCallback" onclick="testRouteCallback()" />
+	    <img id="showImg" style="margin-top:20px;width:250px;height:132px;">
+	    <div id='log'></div>
+	</div>
+	<script>
+		var uniqueId = 1
+		function log(message) {
+			var log = document.getElementById('log')
+			var el = document.createElement('div')
+			el.className = 'logLine'
+			el.innerHTML = uniqueId++ + '. ' + message + '<br/>' 
+			if (log.children) { log.insertBefore(el, log.children[0]) }
+			else { log.appendChild(el) }
+		}
+		function testSetData(){
+			window.axe.data.shared.setNumber("abc",123);
+		}
+		
+		function testGetData(){
+			window.axe.data.shared.get("abc",function(value){
+				log(value)
+			})
+		}
+		function testRegisterEvent(){
+			window.axe.event.registerListener("event_test",function(value){
+				var date = value.get("now_date")
+				log(date)
+				// log(JSON.stringify(value.datas))
+			})
+		}
+		function testPostEvent(){
+			var axeData = window.axe.data.createData()
+			axeData.setDate("now_date",new Date())
+			// log(JSON.stringify(axeData.datas))
+			window.axe.event.postEvent("event_test",axeData)
+		}
+		function testRemoveListner(){
+			window.axe.event.removeListener("event_test")
+		}
+		function testRoute(){
+			window.axe.router.route('http://localhost/echo.html')
+		}
+		function testRouteWithCallback(){
+			var axeData = window.axe.data.createData()
+			axeData.setDate("now_date",new Date())
+			window.axe.router.route('http://localhost/echo.html',axeData,function(value){
+				log(JSON.stringify(value.datas))
+			});
+		}
+		function testRouteCallback(){
+			var axeData = window.axe.data.createData()
+			axeData.setDate("now_date",new Date())
+			if (window.needCallback === true){
+				window.axe.router.callback(axeData);
+			}else {
+				log("错误， 当前页面并没有回调 ！！");
+			}
+			
+		}
+		window.axe.router.getlastRouteInfo(function(data){
+			if (data){
+				if(data.payload){
+					log("路由设置参数 - " + data.payload.get("now_date"))
+				}
+				if(data.needCallback){
+					window.needCallback = true;
+				}
+			}
+		})
+		log("hello world " + window.WebViewJavascriptBridge);
+	</script>
+	
+</body></html>
