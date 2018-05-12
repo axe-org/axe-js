@@ -1,11 +1,11 @@
 {
   "name": "axe4js",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "axe interface using in javascript",
-  "main": "src/index.js",
+  "main": "src/main.js",
+  "types": "src/main.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -20,10 +20,5 @@
   "bugs": {
     "url": "https://github.com/CodingForMoney/axe-js/issues"
   },
-  "homepage": "https://github.com/CodingForMoney/axe-js#readme",
-  "devDependencies": {
-    "uglifyjs-webpack-plugin": "^1.2.3",
-    "webpack": "^4.1.1",
-    "webpack-cli": "^2.0.12"
-  }
+  "homepage": "https://github.com/CodingForMoney/axe-js#readme"
 }

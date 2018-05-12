@@ -50,8 +50,6 @@ let routerCallback = function (param) {
 // source 用来获取路由跳转而来的一些信息。 需要注意异步调用问题。
 // source.needCallback  Boolean 类型， 是否有回调。
 // source.payload       AXEData 类型， 附带的参数。
-//
-
 let _sourceInfo
 
 let getLastRouteFunc = function (callback) {
@@ -79,5 +77,5 @@ let getLastRouteFunc = function (callback) {
 export default {
   route: routerFunc,
   callback: routerCallback,
-  getlastRouteInfo: getLastRouteFunc // 异步获取上次路由信息
+  getRouteInfo: getLastRouteFunc // 异步获取上次路由信息
 }
