@@ -100,14 +100,14 @@ declare module 'axe4js' {
     setByte(key: string, value: string):void;
     /**
       * 设置 图片类型，对应iOS中的 UIImage, Java中的 Image类型。
-      * 而在 js中读取和设置的是 base64的字符串。
-      * @param value 值， 为base64字符串。
+      * 而在 js中读取和设置的是 base64的uri字符串 ， 如 data:image/jpeg;base64,xxxx
+      * @param value 值， 为base64的uri字符串。
       */
     setImage(key: string, value: string):void;
     /**
       * 设置 Date类型 对应iOS中的 NSDate， java中的 Date . 
       * 
-      * @param value 值， 为base64字符串。
+      * @param value 值， Date类型。
       */
     setDate(key: string, value: date):void;
     /**

@@ -62,7 +62,7 @@ AXEData.prototype = {
     }
   },
   setBoolean: function (key, value) {
-    if (key && value && is.String(key)) {
+    if (key && is.String(key)) {
       if (is.Boolean(value)) {
         this.setObjectForKey(key, {
           value: '' + value,

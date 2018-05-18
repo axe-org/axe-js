@@ -8,7 +8,7 @@ let registerFunc = function (eventName, callback) {
   if (is.String(eventName) && typeof callback === 'function') {
     if (!registeredEvents) {
       registeredEvents = {}
-      //  注册回调
+      //  注册回调处理
       setupWebViewJavascriptBridge(function (bridge) {
         bridge.registerHandler('axe_event_callback', function (data) {
           // 将data 转换为 AXEData.
@@ -34,11 +34,11 @@ let registerFunc = function (eventName, callback) {
     if (!callbackList) {
       callbackList = []
       registeredEvents[eventName] = callbackList
+      setupWebViewJavascriptBridge(function (bridge) {
+        bridge.callHandler('axe_event_register', eventName)
+      })
     }
     callbackList.push(callback)
-    setupWebViewJavascriptBridge(function (bridge) {
-      bridge.callHandler('axe_event_register', eventName)
-    })
   }
 }
 // 取消注册函数 , 需要注意，这里取消监听，会直接删掉当前网页的这个 eventName的全部监听。
