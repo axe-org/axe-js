@@ -52,7 +52,7 @@ export function parseAxeData (data) {
 AXEData.prototype = {
   // 设置方法， 设置时要指明类型
   setNumber: function (key, value) {
-    if (key && value && is.String(key)) {
+    if (key && is.String(key)) {
       if (is.Number(value)) {
         this.setObjectForKey(key, {
           value: '' + value,
